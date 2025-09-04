@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% block title %} Login {% endblock %}
+
+{% block content %}
+<head>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Calibri', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #E0E0E0;
+        }
+
+        .container {
+            display: flex;
+            background-color: #1E1E1E;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 150%;
+            max-width: 1000px;
+            margin: 40px auto;
+            justify-content: space-between;
+            align-items: stretch;
+            padding: 20px;
+        }
+
+        .left-section, .right-section {
+            width: 48%;
+            padding: 20px;
+        }
+
+        .left-section {
+            background-color: #2C2C2C;
+            width: 50%;
+        }
+
+        .right-section {
+            width: 50%;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1, h2, p {
+            font-family: 'Arvo', serif;
+            color: #90CAF9;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        .additions {
+            margin-top: 20px;
+        }
+
+        .addition-item {
+            background-color: #1F1F1F;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #90CAF9;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            color: #E0E0E0;
+        }
+
+        .addition-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .addition-item div {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .role-container {
+            margin-bottom: 10px;
+        }
+
+        .role-container label {
+            font-size: 19px;
+            color: #90CAF9;
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        #role-select {
+            width: 30%;
+            padding: 8px;
+            border: 1px solid #90CAF9;
+            border-radius: 5px;
+            background-color: #2C2C2C;
+            color: #E0E0E0;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .form-group label {
+            font-size: 18px;
+            color: #90CAF9;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #90CAF9;
+            border-radius: 5px;
+            background-color: #2C2C2C;
+            color: #E0E0E0;
+        }
+
+        .btn-primary {
+            background-color: #90CAF9;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #64B5F6;
+        }
+
+    </style>
+</head>
+
+<form method="POST">
+    <div class="container">
+        <div class="left-section">
+            <h1>Stay Employed! <br> Get Good Grades</h1>
+            <h2>Our Newest Additions:</h2>
+            <div class="additions">
+                <div class="addition-item">
+                    <img src="{{ url_for('static', filename='tutor.jpg')}}" alt="Profile image">
+                    <div>
+                        <strong>Mr Sashay</strong><br>
+                        Imperial College Graduate<br>
+                        5 A*s obtained in A-Level
+                    </div>
+                </div>
+                <div class="addition-item">
+                    <img src="{{ url_for('static', filename='tutor.jpg')}}" alt="Profile image">
+                    <div>
+                        <strong>Mr Tapioca</strong><br>
+                        Yale University Graduate<br>
+                        Winner of 100 Hackathons
+                    </div>
+                </div>
+                <div class="addition-item">
+                    <img src="{{ url_for('static', filename='tutor.jpg')}}" alt="Profile image">
+                    <div>
+                        <strong>Miss Wong</strong><br>
+                        60+ Hours Experience<br>
+                        Over 100 previous students
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <h2>Sign Up here:</h2>
+            <p>(Email address and First name cannot be changed later)</p>
+
+            <div class="role-container">
+                <label for="role-select">Select Role</label>
+                <select id="role-select" name="role">
+                    <option value="Tutor">Tutor</option>
+                    <option value="Tutee">Tutee</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter email"
+                />
+            </div>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="Enter first name"
+                />
+            </div>
+            <div class="form-group">
+                <label for="password1">Password</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    id="password1"
+                    name="password1"
+                    placeholder="Enter password"
+                />
+            </div>
+            <div class="form-group">
+                <label for="password2">Password (Authentication)</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    id="password2"
+                    name="password2"
+                    placeholder="Confirm password"
+                />
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

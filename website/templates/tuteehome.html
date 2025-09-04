@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+    /> <!--links to css stylesheet, connects to bootstrap, checks integrity of file, don't send user credentials -->
+
+    <title>{% block title %}Home{% endblock %}</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Calibri', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #E0E0E0;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            background-color: #1E1E1E;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+            justify-content: space-between;
+            align-items: stretch;
+            padding: 20px;
+        }
+
+        .left-section, .right-section {
+            flex: 1;
+            padding: 20px;
+            margin-left: 20px;
+        }
+
+        .left-section {
+            width: 150px;
+            background-color: #2C2C2C;
+        }
+
+        .right-section {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1, h2 {
+            font-family: 'Arvo', serif;
+            color: #90CAF9;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .additions {
+            margin-top: 20px;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .tutoradditions {
+            width: 300px;
+            margin-top: 20px;
+            padding: 10px;
+            height: 500px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+        }
+
+        .addition-item {
+            background-color: #2C2C2C;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #90CAF9;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            color: #E0E0E0;
+            display: flex;
+        }
+
+        .tutor-addition-item {
+            background-color: #2C2C2C;;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #90CAF9;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            color: #E0E0E0;
+            display: flex;
+            width: 220px;
+            height: 200px;
+        }
+
+        .addition-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .tutor-addition-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .addition-item div {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .role-container {
+            width: 500px;
+            margin-bottom: 10px;
+        }
+
+        .role-container label {
+            font-size: 19px;
+            color: #90CAF9;
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        #role-select {
+            width: 30%;
+            padding: 8px;
+            border: 1px solid #90CAF9;
+            border-radius: 5px;
+            background-color: #2C2C2C;
+            color: #E0E0E0;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .form-group label {
+            font-size: 18px;
+            color: #90CAF9;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #90CAF9;
+            border-radius: 5px;
+            background-color: #2C2C2C;
+            color: #E0E0E0;
+        }
+
+        .btn-primary {
+            background-color: #90CAF9;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #64B5F6;
+        }
+    </style>
+</head>
+
+<body>
+<script>
+<!--    not sure if subject-select is the right name-->
+<!--taking values submitted in the tutor form into the booking form-->
+    function showResults() {
+       const selectedSubject = document.getElementById('subject-select').value;
+       const selectedTutor = document.querySelector('input[name="tutor-select"]:checked')?.value;
+
+       document.getElementById('selected-subject').value = selectedSubject;
+       document.getElementById('selected-tutor').value = selectedTutor;
+    }
+
+</script>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbar"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+        <div class="navbar-nav">
+            {% if user.is_authenticated %}
+            <a class="nav-item nav-link" id="bookings" href="/tutee">Bookings</a>
+            <a class="nav-item nav-link" id="records" href="/records">Records</a>
+            <a class="nav-item nav-link" id="account" href="/tuteeaccount">Account Details</a>
+            <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+            {% else %}
+            <a class="nav-item nav-link" id="login" href="/login">Login</a>
+            <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if
+messages %} {% for category, message in messages %} {% if category ==
+'error' %}
+<div class="alert alert-danger alter-dismissable fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% else %}
+<div class="alert alert-success alter-dismissable fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %} {% endfor %} {% endif %} {% endwith %}
+
+<div class="container">
+    <div class="left-section">
+        <h2 style="padding:10px;">Tutors available: </h2>
+        <div class="tutoradditions" id="tutors" style="display: hidden;">
+            {% if tutors %}
+            {% for tutor in tutors %}
+            <div class="tutor-addition-item">
+                <label style="margin-right: 10px;"> <input type="radio" id="tutor-select" name="tutor-select"
+                                                           value="{{tutor[0]}}" required>
+                    <image src="{{ url_for('static', filename='tutor.jpg')}}" width="50" height="50"></image>
+                    <div>
+                        <strong>Tutor name: {{tutor[1]}}</strong><br>
+                        Subjects: {{tutor[2]}}<br>
+                        Charge: £{{tutor[3]}} per hour<br>
+                        Rating: {{tutor[4]}}/5.0
+                    </div>
+                </label>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No tutors found.</p>
+            {% endif %}
+        </div>
+    </div>
+    <form method="POST">
+        <div class="right-section">
+            <h2>Find Tutors: </h2>
+            <div class="role-container">
+                <label for="subject-select">Select Subject</label>
+                <select id="subject-select" name="subject">
+                    <option value="1" {{'selected' if subject=='1'}}>Biology</option>
+                    <option value="2" {{'selected' if subject=='2'}}>Chemistry</option>
+                    <option value="3" {{'selected' if subject=='3'}}>Physics</option>
+                    <option value="4" {{'selected' if subject=='4'}}>Computer Science</option>
+                </select>
+            </div>
+            <br>
+            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+
+                <label for="pricestart">Price range: </label>
+                <label>£</label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="pricestart"
+                        name="pricestart"
+                        min="0"
+                        max="100000"
+                        value="0"
+                        step="1"
+                        style="width: 75px;"
+                />
+                <label>to £</label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="priceend"
+                        name="priceend"
+                        min="0"
+                        max="100000"
+                        value="50"
+                        step="1"
+                        style="width: 75px;"
+                />
+                <label>per hour</label>
+            </div>
+            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                <label for="ratingstart">Rating: (out of 5)</label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="ratingstart"
+                        name="ratingstart"
+                        min="0"
+                        max="5"
+                        value="0"
+                        step="0.5"
+                        style="width: 75px;"
+                />
+                <label>to</label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="ratingend"
+                        name="ratingend"
+                        min="0"
+                        max="5"
+                        value="5"
+                        step="0.5"
+                        style="width: 75px;"
+                />
+            </div>
+            <br>
+            <button type="submit" name="Submit" value="Filter" id="findTutorBtn" class="btn btn-primary" style="width:30%">
+                Find Tutor
+            </button>
+    </form>
+    <br>
+    <br>
+    <form method="POST" onsubmit="showResults()">
+        <h2>Make a Booking:</h2>
+
+        <input type="hidden" id="selected-subject" name="subject" value="">
+        <input type="hidden" id="selected-tutor" name="tutor" value="">
+
+        <div class="form-group" style="width: 210px">
+            <label for="date">Date</label>
+            <input
+                    type="date"
+                    class="form-control"
+                    id="date"
+                    name="date"
+                    required
+            />
+        </div>
+        <div>
+            <div class="form-group" style="display: inline-block; width: 48%; margin-right: 2%;">
+                <label for="starttime">Start Time</label>
+                <input
+                        type="time"
+                        class="form-control"
+                        id="starttime"
+                        name="starttime"
+                        required
+                />
+            </div>
+            <div class="form-group" style="display: inline-block; width: 48%; margin-bottom: 5%">
+                <label for="endtime">End Time</label>
+                <input
+                        type="time"
+                        class="form-control"
+                        id="endtime"
+                        name="endtime"
+                        required
+                />
+            </div>
+        </div>
+        <br>
+        <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Submit</button>
+</div>
+</div>
+</form>
+
+</body>
+</html>
+
